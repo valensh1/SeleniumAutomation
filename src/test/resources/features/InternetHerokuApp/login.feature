@@ -1,10 +1,13 @@
 Feature: User Login
 
   Background:
-    Given I am on login page
+    Given I navigate to the Login page
 
-  Scenario: Invalid login scenario
-   When this is a test
+  Scenario: Valid login
+    When I enter valid username tomsmith
+    And I enter a valid password SuperSecretPassword!
+    And I click Login button
+    Then I validate successful login message
 
-  Scenario: Invalid login scenario
-    When this is a test
+
+
