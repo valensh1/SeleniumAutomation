@@ -1,17 +1,17 @@
 package stepDefinitions.InternetHerokuApp;
-import InternetHerokuApp.pages.AppUtils;
+import InternetHerokuApp.pages.AppUtilities;
 import io.cucumber.java8.En;
+import org.openqa.selenium.WebDriver;
 import stepDefinitions.Hooks;
 
-
 public class NavigationSteps implements En {
-    private AppUtils appUtils;
+    WebDriver driver;
 
     public NavigationSteps() {
 
         When("^I navigate to the (.+) page$", (String page) -> {
-            appUtils = new AppUtils(Hooks.getDriver(), page);
-            appUtils.navigateToPage();
+            driver = Hooks.getDriver();
+            AppUtilities.navigateToPage(driver, page);
         });
     }
 }

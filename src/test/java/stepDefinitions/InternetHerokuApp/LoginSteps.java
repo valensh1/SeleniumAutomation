@@ -1,32 +1,44 @@
 package stepDefinitions.InternetHerokuApp;
+
+import InternetHerokuApp.pageObjects.LoginPO;
+import InternetHerokuApp.pages.AppUtilities;
 import InternetHerokuApp.pages.LoginPage;
+import io.cucumber.datatable.DataTable;
 import io.cucumber.java8.En;
+import org.openqa.selenium.WebDriver;
+import stepDefinitions.Hooks;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static stepDefinitions.Hooks.driver;
-
-public class LoginSteps implements En {
+public class LoginSteps extends LoginPO implements En {
+    private WebDriver driver;
     private LoginPage loginPage;
 
-    public LoginSteps () {
+    public LoginSteps() {
 
+        Then("^I should be redirected to the Login page$", () -> {
+            driver = Hooks.getDriver();
+            loginPage = new LoginPage(driver);
+            loginPage.verifyLoginPageLoaded();
+        });
 
-        When("^I enter valid username (.+)$", (String userName) -> {
-        loginPage = new LoginPage(driver);
+        When("^I enter username (.+)$", (String userName) -> {
             loginPage.inputUsername(userName);
         });
 
-        When("^I enter a valid password (.+)$", (String password) -> {
+        When("^I enter password (.+)$", (String password) -> {
             loginPage.inputPassword(password);
         });
 
-        When("^I click (.+) button$", (String password) -> {
-            loginPage.clickLoginButton();
+        When("^I click (.+) button$", (String button) -> {
+            AppUtilities.clickElementByText(driver, button);
         });
 
-        Then("^I validate successful login message$", () -> {
-            String text = driver.findElement(loginPage.loginMessage).getText().trim();
-            assertThat(text).contains("You logged into a secure area!");
+        Then("^I verify (valid|invalid)? ?(login|logout) message$", (String validity, String action, DataTable data) -> {
+            if(validity == null || validity.isEmpty()) {
+                validity = "";
+            }
+            loginPage.verifyLoginPageMessages(validity, action, data.asMap(String.class, String.class));
         });
+
+
     }
 }
