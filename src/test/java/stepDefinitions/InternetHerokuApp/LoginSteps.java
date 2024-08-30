@@ -1,7 +1,6 @@
 package stepDefinitions.InternetHerokuApp;
 
 import InternetHerokuApp.pageObjects.LoginPO;
-import InternetHerokuApp.pages.AppUtilities;
 import InternetHerokuApp.pages.LoginPage;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java8.En;
@@ -13,10 +12,13 @@ public class LoginSteps extends LoginPO implements En {
     private LoginPage loginPage;
 
     public LoginSteps() {
+        // Use a Before hook to ensure driver and pages are initialized before any step runs
+        Before(() -> {
+            this.driver = Hooks.getDriver();
+            loginPage = new LoginPage(driver);
+        });
 
         Then("^I should be redirected to the Login page$", () -> {
-            driver = Hooks.getDriver();
-            loginPage = new LoginPage(driver);
             loginPage.verifyLoginPageLoaded();
         });
 
@@ -28,17 +30,11 @@ public class LoginSteps extends LoginPO implements En {
             loginPage.inputPassword(password);
         });
 
-        When("^I click (.+) button$", (String button) -> {
-            AppUtilities.clickElementByText(driver, button);
-        });
-
         Then("^I verify (valid|invalid)? ?(login|logout) message$", (String validity, String action, DataTable data) -> {
-            if(validity == null || validity.isEmpty()) {
+            if (validity == null || validity.isEmpty()) {
                 validity = "";
             }
             loginPage.verifyLoginPageMessages(validity, action, data.asMap(String.class, String.class));
         });
-
-
     }
 }

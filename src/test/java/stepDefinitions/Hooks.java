@@ -18,7 +18,7 @@ public class Hooks {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10)); // Set implicit wait here
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5)); // Set implicit wait here
         System.out.println("Browser launched successfully");
     }
 

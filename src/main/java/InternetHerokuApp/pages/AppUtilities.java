@@ -5,14 +5,16 @@ import org.openqa.selenium.WebDriver;
 
 public class AppUtilities {
 
-    public static void navigateToPage(WebDriver driver, String page)  {
-
+    public static void navigateToPage(WebDriver driver, String page) {
         switch (page.toLowerCase()) {
             case "login":
                 driver.get("https://the-internet.herokuapp.com/login");
                 break;
             case "checkboxes":
                 driver.get("https://the-internet.herokuapp.com/checkboxes");
+                break;
+            case "add/remove elements":
+                driver.get("https://the-internet.herokuapp.com/add_remove_elements/");
                 break;
         }
     }
