@@ -6,8 +6,8 @@ Feature: Add/Remove Elements
 
   @AddRemoveElements @Smoke
   Scenario:
-    When I click on Add Element button 40 times
-    And I click on Delete button 37 times
+    When I click on Add Element button 42 times
+    And I click on Delete button 42 times
     Then I validate number of buttons displayed
 
 

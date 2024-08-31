@@ -20,16 +20,21 @@ public class AddRemoveElementsPage extends AddRemoveElementsPO {
         wait.until(ExpectedConditions.visibilityOf(driver.findElement(addRemoveElementsPageTitle)));
     }
 
-    public void clickButtonNumTimes(String button, int count) throws InterruptedException {
-        for (int i = 0; i < count; i++) {
+    public void clickButtonNumTimes(String button, int clickCount, int buttonCount)  {
+        while(clickCount > 0) {
             AppUtilities.clickElementByText(driver, button);
-                waitUntilElementVisible(i + 1);
+                waitUntilElementVisible(clickCount, buttonCount, button);
+                clickCount--;
         }
     }
 
-    public void waitUntilElementVisible(int count) {
+    public void waitUntilElementVisible(int clickCount, int buttonCount, String button) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(2));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(deleteButtonCollection));
+        if (clickCount == 1 && buttonCount == 0 && button.equalsIgnoreCase("delete")) {
+            wait.until(ExpectedConditions.numberOfElementsToBe(deleteButtonCollection, 0));
+        } else {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(deleteButtonCollection));
+        }
     }
 
     public void validateNumberOfButtonsDisplayed(int count) {
