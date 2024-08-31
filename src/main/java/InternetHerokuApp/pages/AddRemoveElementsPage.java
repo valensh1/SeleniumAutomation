@@ -4,7 +4,6 @@ import InternetHerokuApp.pageObjects.AddRemoveElementsPO;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 import java.time.Duration;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -39,13 +38,7 @@ public class AddRemoveElementsPage extends AddRemoveElementsPO {
     }
 
     public void validateNumberOfButtonsDisplayed(int count) {
-        if(count == 0) {
-            int numOfElementsDisplayed = driver.findElements(deleteButtonCollection).size();
-            assertThat(numOfElementsDisplayed).isEqualTo(0);
-        } else {
-            int buttonCount = driver.findElements(deleteButtonCollection).size();
-            System.out.println("The number of buttons that should be displayed is " + buttonCount + " and that compares to the actual of " + count);
-            assertThat(buttonCount).isEqualTo(count);
-        }
+        int buttonCount = driver.findElements(deleteButtonCollection).size();
+        assertThat(buttonCount).isEqualTo(count);
     }
 }

@@ -1,4 +1,3 @@
-#@smv
 Feature: User Login Tests
 
   Background:
