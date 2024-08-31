@@ -23,7 +23,6 @@ public class AddRemoveElementsSteps implements En {
 
         When("^I click on (.+) button (.+) times$", (String button, String count) -> {
             int clickCount = Integer.parseInt(count);
-            System.out.println("I clicked on the " + button + " " + count + " times");
             buttonCount = button.equalsIgnoreCase("add element") ? buttonCount + clickCount : buttonCount - clickCount;
             addRemoveElementsPage.clickButtonNumTimes(button, clickCount, buttonCount);
         });
