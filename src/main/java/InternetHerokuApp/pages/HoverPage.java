@@ -11,7 +11,6 @@ import java.time.Duration;
 import java.util.Map;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.openqa.selenium.support.locators.RelativeLocator.with;
 
 public class HoverPage extends HoverPagePO {
     private WebDriver driver;
