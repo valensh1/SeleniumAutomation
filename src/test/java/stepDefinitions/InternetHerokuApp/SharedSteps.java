@@ -16,7 +16,6 @@ public class SharedSteps implements En {
 
         When("^I click on (.+) (button|link)$", (String elementText, String element) -> {
             AppUtilities.clickElementByText(driver, elementText);
-            Thread.sleep(2000);
         });
 
     }
