@@ -2,7 +2,6 @@ package InternetHerokuApp.pages;
 
 import InternetHerokuApp.pageObjects.HoverPagePO;
 import org.assertj.core.api.SoftAssertions;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -11,7 +10,6 @@ import java.time.Duration;
 import java.util.Map;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.openqa.selenium.support.locators.RelativeLocator.with;
 
 public class HoverPage extends HoverPagePO {
     private WebDriver driver;
