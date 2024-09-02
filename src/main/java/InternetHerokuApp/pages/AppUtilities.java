@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.Select;
 
 public class AppUtilities {
 
@@ -17,6 +18,8 @@ public class AppUtilities {
                 driver.get("https://the-internet.herokuapp.com/add_remove_elements/");
             case "hovers" ->
                     driver.get("https://the-internet.herokuapp.com/hovers");
+            case "dropdown" ->
+                    driver.get("https://the-internet.herokuapp.com/dropdown");
         }
     }
 
@@ -29,5 +32,19 @@ public class AppUtilities {
     public static void hoverElement(WebDriver driver, WebElement element) {
         Actions actions = new Actions(driver);
         actions.moveToElement(element).perform();
+    }
+
+    public static void dropdownMenuSelectionByText(WebDriver driver, WebElement dropdownElement, String optionText) {
+        Select dropdownMenu = new Select(dropdownElement);
+        dropdownMenu.selectByVisibleText(optionText);
+    }
+
+    public static void dropdownMenuSelectionByText(WebDriver driver, WebElement dropdownElement, int optionNumber) {
+        Select dropdownMenu = new Select(dropdownElement);
+        dropdownMenu.selectByIndex(optionNumber);
+    }
+
+    public static void refreshPage(WebDriver driver) {
+        driver.navigate().refresh();
     }
 }
