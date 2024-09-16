@@ -6,7 +6,7 @@ Feature: Hover Page Tests
       | title           | Hovers                                          |
       | hover page text | Hover over the image for additional information |
 
-  @Hover
+  @Hover @Smoke
   Scenario: Verify that hovering over each user image reveals the hidden information
     When I hover over image 1
     Then I verify image 1 text and profile link displays
@@ -15,7 +15,7 @@ Feature: Hover Page Tests
     When I hover over image 3
     Then I verify image 3 text and profile link displays
 
-  @Hover
+  @Hover @Smoke
   Scenario Outline: Verify that clicking on link upon hover takes user to profile page
     When I hover over image <image_number>
     Then I verify image <image_number> text and profile link displays
