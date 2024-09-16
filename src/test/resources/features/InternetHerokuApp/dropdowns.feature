@@ -6,7 +6,7 @@ Feature: Dropdown Page Tests
       | title               | Dropdown List           |
       | default menu option | Please select an option |
 
-  @Dropdown
+  @Dropdown @Smoke
   Scenario: Validate a user can select both options from the dropdown menu, refresh page and then verify page resets
     When I select Option 1 from the dropdown menu
     Then I verify dropdown displays my selection

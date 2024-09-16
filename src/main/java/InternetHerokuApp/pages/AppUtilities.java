@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
+import java.util.List;
 
 public class AppUtilities {
 
@@ -20,6 +21,8 @@ public class AppUtilities {
                     driver.get("https://the-internet.herokuapp.com/hovers");
             case "dropdown" ->
                     driver.get("https://the-internet.herokuapp.com/dropdown");
+            case "multiple windows" ->
+                    driver.get("https://the-internet.herokuapp.com/windows");
         }
     }
 
@@ -27,6 +30,16 @@ public class AppUtilities {
         if(text.equalsIgnoreCase("back")) driver.navigate().back();
         String xpathExpression = String.format("//*[normalize-space(text())='%s']", text);
         driver.findElement(By.xpath(xpathExpression)).click();
+    }
+
+    public static void pressKey(WebDriver driver, CharSequence key) {
+        Actions actions = new Actions(driver);
+        actions.keyDown(key);
+    };
+
+    public static void releaseKey(WebDriver driver, CharSequence key) {
+        Actions actions = new Actions(driver);
+        actions.keyUp(key);
     }
 
     public static void hoverElement(WebDriver driver, WebElement element) {
@@ -46,5 +59,19 @@ public class AppUtilities {
 
     public static void refreshPage(WebDriver driver) {
         driver.navigate().refresh();
+    }
+
+    public static void switchToNewWindow(WebDriver driver, int windowNumber) {
+        List <String> windows = driver.getWindowHandles().stream().toList();
+        String windowToSwitchTo = windows.get(windowNumber);
+        driver.switchTo().window(windowToSwitchTo);
+    }
+
+    public static void closeCurrentBrowserWindow(WebDriver driver) {
+        driver.close();
+    }
+
+    public static void closeAllBrowserWindows(WebDriver driver) {
+        driver.quit();
     }
 }

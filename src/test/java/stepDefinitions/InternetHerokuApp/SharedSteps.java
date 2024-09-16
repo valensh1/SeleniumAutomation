@@ -5,6 +5,8 @@ import io.cucumber.java8.En;
 import org.openqa.selenium.WebDriver;
 import stepDefinitions.Hooks;
 
+import java.util.Optional;
+
 public class SharedSteps implements En {
     private WebDriver driver;
 
