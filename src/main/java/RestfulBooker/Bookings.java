@@ -42,11 +42,7 @@ public class Bookings {
     public void createBooking(String requestType, String firstName, String lastName, int price, boolean depositPaid, String checkin, String checkout, String needs) throws JsonProcessingException {
         bookingsPOJO = new BookingsPOJO(firstName, lastName, price, depositPaid, checkin, checkout, needs);
         String json = convertToJson(bookingsPOJO);
-        if (requestType.equalsIgnoreCase("POST")) {
-            postRequest(json);
-        } else {
-            putRequest(json);
-        }
+            makeAPICall(requestType.toUpperCase(), json);
     }
 
     public String convertToJson(BookingsPOJO object) throws JsonProcessingException {
@@ -54,41 +50,44 @@ public class Bookings {
         return objectMapper.writeValueAsString(object);
     }
 
-    public void postRequest(String json) {
-        System.out.println("This is the json being sent " + json);
-        response = given()
-                .contentType("application/json")
-                .body(json)
-                .request("POST", "/booking");
-        System.out.println("This is the response " + response.getBody().asString());
-        bookingID = response.jsonPath().getInt("bookingid");
+    public void makeAPICall(String requestType, String json) {
+        switch(requestType) {
+            case "POST" -> {
+                response = given()
+                        .contentType("application/json")
+                        .body(json)
+                        .request(requestType, "/booking");
+                bookingID = response.jsonPath().getInt("bookingid");
+                System.out.println("This is my POST request response -> " + response.getBody().asString());
+            }
+            case "PUT" -> {
+                response = given()
+                        .contentType("application/json")
+                        .body(json)
+                        .accept("application/json")
+                        .header("Cookie", "token=" + token)
+                        .request(requestType, "/booking/" + bookingID);
+                System.out.println("This is my PUT request response -> " + response.getBody().asString());
+            }
+            case "GET" -> {
+                response = given()
+                        .contentType("application/json")
+                        .request(requestType, "/booking/" + bookingID);
+                System.out.println("This is my GET request response -> " + response.getBody().asString());
+            }
+        }
     }
 
     public void getToken() {
         JSONObject tokenJSON = new JSONObject();
         tokenJSON.put("username", "admin");
         tokenJSON.put("password", "password123");
-        System.out.println("This is the token JSON " + tokenJSON.toString());
         Response response = given()
                 .contentType("application/json")
                 .body(tokenJSON.toString())
                 .request("POST", "/auth");
         assertThat(response.getStatusCode()).isEqualTo(200);
         token = response.jsonPath().getString("token");
-        System.out.println("This is my token -> " + token);
-    }
-
-    public void putRequest(String json) {
-        System.out.println("This is the PUT request with Booking ID -> " + json + " booking ID -> " + bookingID);
-        System.out.println("This is my token I am trying to use in my PUT request --> " + token);
-        response = given()
-                .contentType("application/json")
-                .body(json)
-                .accept("application/json")
-                .header("Cookie", "token=" + token)
-                .request("PUT", "/booking/" + bookingID);
-        System.out.println("This is the PUT request response -> " + response.getBody().asString());
-        System.out.println("This is the status code response -> " + response.getStatusCode());
     }
 
     public void validateResponseCode(int expectedResponseCode) {
@@ -97,13 +96,6 @@ public class Bookings {
 
     public void validateBookingID() {
         assertThat(bookingID).isGreaterThan(0);
-    }
-
-    public void getBooking() {
-        response = given()
-                .contentType("application/json")
-                .request("GET", "/booking/" + bookingID);
-        System.out.println("This is the booking response to validate for the booking I just created " + response.getBody().asString());
     }
 
     public void validateBooking() {

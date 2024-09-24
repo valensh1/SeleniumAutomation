@@ -12,7 +12,6 @@ public class BookingSteps implements En {
         });
 
         When("^I create a booking using a POST request with the following information (\\w+) (\\w+) (\\d+) (true|false) (\\d{4}-\\d{2}-\\d{2}) (\\d{4}-\\d{2}-\\d{2}) (.+)$", (String firstName, String lastName, String price, String depositPaid, String checkinDate, String checkoutDate, String additionalNeeds)  -> {
-            System.out.println("Here are the variables -> " + firstName + " " + lastName + " " + price + " " + depositPaid + " " + checkinDate + " " + checkoutDate + " " + additionalNeeds);
             bookings.createBooking("POST", firstName, lastName, Integer.parseInt(price), Boolean.parseBoolean(depositPaid), checkinDate, checkoutDate, additionalNeeds);
         });
 
@@ -25,7 +24,7 @@ public class BookingSteps implements En {
         });
 
         When("^I make a GET request using my booking ID$", ()  -> {
-            bookings.getBooking();
+            bookings.makeAPICall("GET", "");
         });
 
         Then("^I validate that my booking is correct$", ()  -> {
