@@ -9,4 +9,6 @@ Feature: Set Warehouse Location Feature
     And I find my warehouse from list
     And I tap on Set as My Warehouse button
     And I tap on Continue button
-    Then I verify my warehouse has been successfully set
+    Then I verify my set warehouse displays on home page
+    When I navigate to Warehouse page
+    Then I verify my set warehouse displays on Warehouse page

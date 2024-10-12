@@ -14,7 +14,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class WarehouseSearchPage extends WarehouseSearchPO {
     private AndroidDriver driver;
-    private String searchText;
+    public static String searchText;
     private WebElement searchResult;
 
     public WarehouseSearchPage(AndroidDriver driver) {
@@ -29,6 +29,7 @@ public class WarehouseSearchPage extends WarehouseSearchPO {
     public void enterSearchCriteria(String text) {
         AppUtilities.enterText(driver.findElement(warehouseSearchBar), text);
         searchText = text;
+        System.out.println("Setting search text as -> "+searchText);
     }
 
     public void verifySearchResults() {
@@ -61,11 +62,5 @@ public class WarehouseSearchPage extends WarehouseSearchPO {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         WebElement elementContainingWarehouseName = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//android.view.View[contains(@content-desc, '"+searchText+"')]")));
         assertThat(elementContainingWarehouseName.getAttribute("content-desc")).contains(searchText);
-
-        // Need to fix code on this so San Juan Capistrano is not hard coded; Need to have a Navigations PO for icons at bottom navbar
-        WebElement warehousePage = driver.findElement(By.xpath("//android.widget.TextView[@text=\"Warehouse\"]"));
-        warehousePage.click();
-        WebElement warehouseName = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//android.widget.TextView[@text=\"San Juan Capistrano\"]")));
-        assertThat(warehouseName.getText()).contains(searchText);
     }
 }

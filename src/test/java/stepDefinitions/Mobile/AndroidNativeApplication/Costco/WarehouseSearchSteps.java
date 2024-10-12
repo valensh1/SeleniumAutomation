@@ -5,11 +5,11 @@ import io.appium.java_client.android.AndroidDriver;
 import io.cucumber.java8.En;
 import stepDefinitions.Hooks;
 
-public class WarehouseLocationSteps implements En {
+public class WarehouseSearchSteps implements En {
     private AndroidDriver driver;
     private WarehouseSearchPage warehouseSearchPage;
 
-    public WarehouseLocationSteps() {
+    public WarehouseSearchSteps() {
         Before(() -> {
             driver = Hooks.getAndroidDriver();
             warehouseSearchPage = new WarehouseSearchPage(driver);
@@ -38,10 +38,6 @@ public class WarehouseLocationSteps implements En {
 
         When("^I tap on (.+) button$", (String buttonText) -> {
             warehouseSearchPage.clickWarehousePageButton(buttonText);
-        });
-
-        Then("^I verify my warehouse has been successfully set$", () -> {
-            warehouseSearchPage.verifyWarehouseSet();
         });
     }
 }
