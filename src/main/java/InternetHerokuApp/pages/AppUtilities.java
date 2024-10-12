@@ -1,41 +1,44 @@
 package InternetHerokuApp.pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import io.appium.java_client.AppiumBy;
+import io.appium.java_client.android.AndroidDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import java.time.Duration;
 import java.util.List;
 
 public class AppUtilities {
 
     public static void navigateToPage(WebDriver driver, String page) {
         switch (page.toLowerCase()) {
-            case "login" ->
-                driver.get("https://the-internet.herokuapp.com/login");
-            case "checkboxes" ->
-                driver.get("https://the-internet.herokuapp.com/checkboxes");
-            case "add/remove elements" ->
-                driver.get("https://the-internet.herokuapp.com/add_remove_elements/");
-            case "hovers" ->
-                    driver.get("https://the-internet.herokuapp.com/hovers");
-            case "dropdown" ->
-                    driver.get("https://the-internet.herokuapp.com/dropdown");
-            case "multiple windows" ->
-                    driver.get("https://the-internet.herokuapp.com/windows");
+            case "login" -> driver.get("https://the-internet.herokuapp.com/login");
+            case "checkboxes" -> driver.get("https://the-internet.herokuapp.com/checkboxes");
+            case "add/remove elements" -> driver.get("https://the-internet.herokuapp.com/add_remove_elements/");
+            case "hovers" -> driver.get("https://the-internet.herokuapp.com/hovers");
+            case "dropdown" -> driver.get("https://the-internet.herokuapp.com/dropdown");
+            case "multiple windows" -> driver.get("https://the-internet.herokuapp.com/windows");
         }
     }
 
     public static void clickElementByText(WebDriver driver, String text) {
-        if(text.equalsIgnoreCase("back")) driver.navigate().back();
+        if (text.equalsIgnoreCase("back")) driver.navigate().back();
         String xpathExpression = String.format("//*[normalize-space(text())='%s']", text);
         driver.findElement(By.xpath(xpathExpression)).click();
+    }
+
+    public static void clickElement(WebDriver driver, WebElement element) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.elementToBeClickable(element));
+        element.click();
     }
 
     public static void pressKey(WebDriver driver, CharSequence key) {
         Actions actions = new Actions(driver);
         actions.keyDown(key);
-    };
+    }
 
     public static void releaseKey(WebDriver driver, CharSequence key) {
         Actions actions = new Actions(driver);
@@ -62,7 +65,7 @@ public class AppUtilities {
     }
 
     public static void switchToNewWindow(WebDriver driver, int windowNumber) {
-        List <String> windows = driver.getWindowHandles().stream().toList();
+        List<String> windows = driver.getWindowHandles().stream().toList();
         String windowToSwitchTo = windows.get(windowNumber);
         driver.switchTo().window(windowToSwitchTo);
     }
@@ -73,5 +76,17 @@ public class AppUtilities {
 
     public static void closeAllBrowserWindows(WebDriver driver) {
         driver.quit();
+    }
+
+    public static void enterText(WebElement element, String text) {
+        System.out.println("This is the element " + element);
+        System.out.println("This is the text " + text);
+        element.sendKeys(text);
+    }
+
+    public static void scrollAndClick(AndroidDriver driver, String text, int instance) {
+        driver.findElement(AppiumBy.androidUIAutomator(
+                "new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollIntoView(new UiSelector().textContains(\"" + text + "\").instance("+instance+"))"
+        )).click();
     }
 }
