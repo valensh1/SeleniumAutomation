@@ -109,5 +109,10 @@
       <artifactId>json</artifactId>
       <version>20240303</version>
     </dependency>
+    <dependency>
+      <groupId>io.appium</groupId>
+      <artifactId>java-client</artifactId>
+      <version>9.3.0</version>
+    </dependency>
   </dependencies>
 </project>
