@@ -34,9 +34,8 @@ public class ShopPageSteps implements En {
             shopPage.selectFromList(subCategory);
         });
 
-        When("^I tap (.+) button on the Shop page$", (String buttonText) -> {
-            shopPage.addItemsToCart(1);
-            Thread.sleep(5000);
+        When("^I tap (.+) button on the Shop page for (.+)$", (String buttonText, String itemNumber) -> {
+            shopPage.addItemsToCart(Integer.parseInt(itemNumber));
         });
 
 

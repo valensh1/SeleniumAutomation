@@ -15,8 +15,8 @@ Feature: Shopping Cart
     And I tap on <Department> department
     And I tap on <Categories> from categories list
     And I tap on <SubCategory> from subcategories list
-    And I tap Add button on the Shop page
+    And I tap Add button on the Shop page for <ItemNumber>
     Examples:
-      | Department       | Categories | SubCategory  |
-      | Sports & Fitness | Game Room  | Table Tennis |
+      | Department       | Categories | SubCategory  | ItemNumber |
+      | Sports & Fitness | Game Room  | Table Tennis | 1          |
 #      | Patio, Lawn & Garden | Patio & Outdoor Furniture | Outdoor Patio Fire Pit Sets |

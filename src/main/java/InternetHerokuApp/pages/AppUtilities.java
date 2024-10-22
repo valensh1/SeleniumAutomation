@@ -83,18 +83,20 @@ public class AppUtilities {
     }
 
     public static void scrollAndClickByElement(AndroidDriver driver, String element) {
-        System.out.println("This is the element I am looking to click " + element);
-        String scrollableElement = "new UiScrollable(new UiSelector().scrollable(true).instance(0))";
+        System.out.println("This is the element I am looking to click: " + element);
         int maxAttempts = 10; // Set a limit to avoid infinite scrolling
         int attempts = 0;
 
+        // Define the scrollable element selector
+        String scrollableElement = "new UiScrollable(new UiSelector().scrollable(true).instance(0))";
+
         while (attempts < maxAttempts) {
             try {
-                // Try to find the element
+                // Try to find the element before scrolling
                 WebElement webElement = driver.findElement(By.xpath(element));
                 if (webElement.isDisplayed()) {
                     webElement.click(); // Click the element if found and displayed
-                    System.out.println("Clicked on the element.");
+                    System.out.println("Clicked on the element with resource-id: " + element);
                     return; // Exit the method after clicking
                 }
             } catch (NoSuchElementException e) {
@@ -105,15 +107,15 @@ public class AppUtilities {
                 break; // Exit the loop if there's a WebDriver error
             }
 
-            // Scroll to the element using scrollIntoView
+            // Scroll forward to the next view
             driver.findElement(AppiumBy.androidUIAutomator(
-                    scrollableElement + ".scrollIntoView(new UiSelector().resourceId(\"addbutton-" + (attempts + 1) + "\"))"
+                    scrollableElement + ".scrollForward()"
             ));
 
             attempts++;
         }
 
-        System.out.println("Element with locator '" + element + "' not found after scrolling.");
+        System.out.println("Element with resource-id '" + element + "' not found after " + maxAttempts + " scroll attempts.");
     }
 
     public static void scrollAndClickByText(AndroidDriver driver, String text) {

@@ -11,6 +11,8 @@ import java.util.List;
 
 public class ShopPage extends ShopPagePO {
     private AndroidDriver driver;
+    public String itemName;
+    public String itemPrice;
 
     public ShopPage(AndroidDriver driver) {
         this.driver = driver;
@@ -21,12 +23,10 @@ public class ShopPage extends ShopPagePO {
     }
 
     public void addItemsToCart(int itemNumberOnPage) {
-//    WebElement addButton = driver.findElement(By.xpath("//android.widget.Button[@resource-id='addbutton-"+itemNumberOnPage+"']"));
-//    addButton.click();
-//        List<WebElement> addButtonsList = driver.findElements(addButtons);
-//        int itemsNumber = addButtonsList.size();
-//        System.out.println("This is the number of add items buttons "+itemsNumber);
-        String addButtonToClick = "//android.widget.Button[@resource-id='addbutton-"+itemNumberOnPage+"']";
-        AppUtilities.scrollAndClickByElement(driver, addButtonToClick);
+        String itemToAddToCart = "//android.widget.Button[@resource-id='addbutton-"+itemNumberOnPage+"']";
+        AppUtilities.scrollAndClickByElement(driver, itemToAddToCart);
+        itemName = driver.findElement(By.xpath("//*[contains(@resource-id, 'AddToCartForm-"+itemNumberOnPage+"')]")).getText();
+        itemPrice = driver.findElement(By.xpath("(//*[contains(@resource-id, 'price')])["+(itemNumberOnPage+1)+"]")).getText();
+        System.out.println("This is the item name -> " + itemName + " and this is the item price " + itemPrice);
     }
 }
