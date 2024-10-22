@@ -20,13 +20,16 @@ import java.time.Duration;
 public class Hooks {
 
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private static WebDriver driver;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private static IOSDriver iosDriver;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private static AndroidDriver androidDriver;
 
     // This Cucumber Hook runs BEFORE any scenario; Set order to 0 to avoid race condition because step definition tries to getDriver in Before method prior to this hook being completed
@@ -35,41 +38,53 @@ public class Hooks {
         // Check for the @iOS tag in the scenario
         if (scenario.getSourceTagNames().contains("@iOS")) {
             System.out.println("Setting up IOSDriver...");
-            setIosDriver(iOSSetup.initializeDriver()); // Calls the static method to initialize IOSDriver; // Uses Lombok setter method to set driver
-            iosDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10)); // Set implicit wait here
-
-            // if tags contain Android then open up Chrome browser. Want to ensure when we are doing API only testing it doesn't open up a browser window
+            setIosDriver(iOSSetup.initializeDriver());
+            if (iosDriver != null) {
+                iosDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+            }
         } else if (scenario.getSourceTagNames().contains("@Android")) {
             System.out.println("Setting up Android Driver...");
-            setAndroidDriver(AndroidSetup.initializeDriver()); // Calls the static method to initialize AndroidDriver; // Uses Lombok setter method to set driver
-            androidDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10)); // Set implicit wait here
-
+            setAndroidDriver(AndroidSetup.initializeDriver());
+            if (androidDriver != null) {
+                androidDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+            }
         } else if (scenario.getSourceTagNames().contains("@APIOnly")) {
             System.out.println("No browser window to open --> API Calls being made");
         } else {
             System.out.println("Setting up WebDriver...");
             WebDriverManager.chromedriver().setup();
-            setDriver(new ChromeDriver()); // Uses Lombok setter method to set driver
-            driver.manage().window().maximize();
-            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5)); // Set implicit wait here
-            System.out.println("Browser launched successfully");
+            setDriver(new ChromeDriver());
+            if (driver != null) {
+                driver.manage().window().maximize();
+                driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+                System.out.println("Browser launched successfully");
+            }
         }
     }
 
     @After
     public void teardown(Scenario scenario) {
-        if (!scenario.getSourceTagNames().contains("@API")) {
+        if (!scenario.getSourceTagNames().contains("@APIOnly")) {
             if (driver != null) {
                 driver.quit();
+                driver = null;
                 System.out.println("Browser closed.");
             }
-            if (iosDriver != null) {
-                iosDriver.quit();
-                System.out.println("IOSDriver closed.");
-            }
-            if (androidDriver != null) {
+        }
+        if (iosDriver != null) {
+            iosDriver.quit();
+            iosDriver = null;
+            System.out.println("IOSDriver closed.");
+        }
+        if (androidDriver != null) {
+            try {
                 androidDriver.quit();
                 System.out.println("Android Driver closed.");
+            } catch (Exception e) {
+                System.err.println("Error during AndroidDriver quit: " + e.getMessage());
+            } finally {
+                androidDriver = null;
+                System.out.println("Android Driver set to null.");
             }
         }
     }

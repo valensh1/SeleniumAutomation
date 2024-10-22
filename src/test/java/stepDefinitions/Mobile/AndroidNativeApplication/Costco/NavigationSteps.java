@@ -15,7 +15,7 @@ public class NavigationSteps implements En {
             navigations = new Navigations(driver);
         });
 
-        When("^I navigate to (.+) page$", (String page) -> {
+        When("^I navigate to (.+) page on mobile app$", (String page) -> {
             navigations.navigateToPage(driver, page);
         });
     }

@@ -20,7 +20,7 @@ public class HomePage extends HomePagePO {
 
     public void verifySetWarehouse() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        String searchText = WarehouseSearchPage.searchText;
+        String searchText = WarehouseSearchPage.getSearchText();
         WebElement elementContainingWarehouseName = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//android.view.View[contains(@content-desc, '"+searchText+"')]")));
         assertThat(elementContainingWarehouseName.getAttribute("content-desc")).contains(searchText);
     };

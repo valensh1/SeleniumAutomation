@@ -3,6 +3,7 @@ package Mobile.AndroidNativeApplication.Costco.PageObjects;
 import org.openqa.selenium.By;
 
 public class NavBarPO {
+    // Bottom Navbar
     protected By exploreTab = By.xpath("//android.widget.TextView[@text='Explore']");
     protected By shopTab = By.xpath("//android.widget.TextView[@text='Shop']");
     protected By accountTab = By.xpath("//android.widget.TextView[@text='Account']");

@@ -3,6 +3,8 @@ package Mobile.AndroidNativeApplication.Costco.Pages;
 import InternetHerokuApp.pages.AppUtilities;
 import Mobile.AndroidNativeApplication.Costco.PageObjects.WarehouseSearchPO;
 import io.appium.java_client.android.AndroidDriver;
+import lombok.Getter;
+import lombok.Setter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -14,8 +16,11 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class WarehouseSearchPage extends WarehouseSearchPO {
     private AndroidDriver driver;
-    public static String searchText;
     private WebElement searchResult;
+
+    @Getter @Setter
+    public static String searchText;
+
 
     public WarehouseSearchPage(AndroidDriver driver) {
         this.driver = driver;
@@ -28,7 +33,7 @@ public class WarehouseSearchPage extends WarehouseSearchPO {
 
     public void enterSearchCriteria(String text) {
         AppUtilities.enterText(driver.findElement(warehouseSearchBar), text);
-        searchText = text;
+        setSearchText(text);
         System.out.println("Setting search text as -> "+searchText);
     }
 
@@ -43,7 +48,7 @@ public class WarehouseSearchPage extends WarehouseSearchPO {
     }
 
     public void searchForWarehouse()  {
-        AppUtilities.scrollAndClick(driver, searchText, 1); // If searching for 1st instance of something put 0, 2nd instance of text then put 1, etc.
+        AppUtilities.scrollAndClickByText(driver, searchText, 1); // If searching for 1st instance of something put 0, 2nd instance of text then put 1, etc.
     }
 
     public void clickWarehousePageButton(String text) {

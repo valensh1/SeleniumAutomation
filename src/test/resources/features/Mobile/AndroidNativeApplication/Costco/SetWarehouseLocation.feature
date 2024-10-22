@@ -1,6 +1,6 @@
 Feature: Set Warehouse Location Feature
 
-  @Android @smv
+  @Android
   Scenario: User successfully sets the warehouse location
     Given I am on the Warehouses search page
     When I enter city of San Juan Capistrano
@@ -10,5 +10,5 @@ Feature: Set Warehouse Location Feature
     And I tap on Set as My Warehouse button
     And I tap on Continue button
     Then I verify my set warehouse displays on home page
-    When I navigate to Warehouse page
+    When I navigate to Warehouse page on mobile app
     Then I verify my set warehouse displays on Warehouse page
